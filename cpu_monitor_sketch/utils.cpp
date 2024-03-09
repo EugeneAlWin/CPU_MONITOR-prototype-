@@ -27,9 +27,9 @@ void waitForConnection()
         if (Serial.available() == 0)
             return;
 
-        BUFFER_DATA = Serial.readString();
-        if (BUFFER_DATA == HELLO_MESSAGE)
+        if (Serial.readString() == HELLO_MESSAGE)
         {
+            Serial.write(ACK_MESSAGE);
             currentState = SHOW_SCREEN;
             return;
         }
@@ -44,13 +44,29 @@ void requestAnimationFrame()
 
     oled.clear();
     oled.home();
-    BUFFER_DATA = Serial.readString();
-    oled.print(BUFFER_DATA);
+    oled.print(Serial.readString());
 }
 
-void requestScreenChange()
+void switchScreen()
 {
     using namespace global;
     currentScreen = static_cast<SCREENS>((static_cast<int>(currentScreen) + 1) % static_cast<int>(_SCREENS_LEN));
     currentState = CHANGE_SCREEN;
+}
+
+void requestNewScreenData()
+{
+    using namespace global;
+    Serial.write(currentScreen);
+    while (true)
+    {
+        if (Serial.available() == 0)
+            continue;
+        if (Serial.readString() == ACK_MESSAGE)
+        {
+            Serial.write(ACK_MESSAGE);
+            currentState = SHOW_SCREEN;
+            return;
+        }
+    }
 }

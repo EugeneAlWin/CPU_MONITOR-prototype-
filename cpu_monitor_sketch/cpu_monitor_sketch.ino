@@ -10,7 +10,7 @@ void setup()
 {
   Serial.begin(9600);
   pinMode(BUTTON_PIN_DIGITAL, INPUT_PULLUP);
-  attachInterrupt(INTERRUPT_PIN_D2, requestScreenChange, RISING);
+  attachInterrupt(INTERRUPT_PIN_D2, switchScreen, RISING);
   currentState = WAIT_FOR_CONNECTION;
   currentScreen = CPU_GPU;
 
@@ -26,19 +26,5 @@ void loop()
     return requestAnimationFrame();
 
   else if (currentState == CHANGE_SCREEN)
-    return requestScreenChange();
+    return requestNewScreenData();
 }
-
-// int ByteReceived = 0; // INT for received serial data
-// void setup() {
-//   Serial.begin(9600); // Serial communication begin to read data
-// }
-// void loop() {
-//   // check for the serial data at serial port
-//   if (Serial.available() > 0) {
-//     // read byte of received data:
-//     ByteReceived = Serial.read();
-//     // prints the received data on serial monitor
-//     Serial.write("f");
-//   }
-// }

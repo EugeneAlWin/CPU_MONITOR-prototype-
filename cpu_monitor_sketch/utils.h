@@ -13,4 +13,5 @@ namespace global
 void initializeDisplay();
 void waitForConnection();
 void requestAnimationFrame();
-void requestScreenChange();
+void switchScreen();
+void requestNewScreenData();

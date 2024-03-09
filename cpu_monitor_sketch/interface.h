@@ -1,13 +1,13 @@
 #pragma once
 
 constexpr auto HELLO_MESSAGE = "CPU_MONITOR";
+constexpr auto ACK_MESSAGE = "ACK";
 
 enum STATES
 {
     WAIT_FOR_CONNECTION,
     SHOW_SCREEN,
     CHANGE_SCREEN,
-    _STATES_LEN // THIS IS NOT A STATE
 };
 
 enum SCREENS
