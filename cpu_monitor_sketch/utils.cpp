@@ -2,13 +2,17 @@
 #include "interface.h"
 #include <GyverOLED.h>
 
-volatile SCREENS currentScreen;
-volatile STATES currentState;
-GyverOLED<SSD1306_128x64, OLED_NO_BUFFER> oled;
-String BUFFER_DATA;
+namespace global
+{
+    volatile SCREENS currentScreen;
+    volatile STATES currentState;
+    GyverOLED<SSD1306_128x64, OLED_NO_BUFFER> oled;
+    String BUFFER_DATA;
+}
 
 void initializeDisplay()
 {
+    using namespace global;
     oled.init();
     oled.clear();
     oled.setScale(3);
@@ -17,6 +21,7 @@ void initializeDisplay()
 
 void waitForConnection()
 {
+    using namespace global;
     while (true)
     {
         if (Serial.available() == 0)
@@ -33,6 +38,7 @@ void waitForConnection()
 
 void requestAnimationFrame()
 {
+    using namespace global;
     if (Serial.available() == 0)
         return;
 
@@ -44,6 +50,7 @@ void requestAnimationFrame()
 
 void requestScreenChange()
 {
+    using namespace global;
     currentScreen = static_cast<SCREENS>((static_cast<int>(currentScreen) + 1) % static_cast<int>(_SCREENS_LEN));
     currentState = CHANGE_SCREEN;
 }

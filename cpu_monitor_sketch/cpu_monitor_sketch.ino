@@ -4,6 +4,8 @@
 constexpr byte BUTTON_PIN_DIGITAL = 2;
 constexpr byte INTERRUPT_PIN_D2 = 0;
 
+using namespace global;
+
 void setup()
 {
   Serial.begin(9600);
