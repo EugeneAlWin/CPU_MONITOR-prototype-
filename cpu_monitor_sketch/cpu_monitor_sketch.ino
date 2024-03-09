@@ -1,13 +1,8 @@
 #include <GyverOLED.h>
 #include "utils.h"
 #include "interface.h"
-
 constexpr byte BUTTON_PIN_DIGITAL = 2;
 constexpr byte INTERRUPT_PIN_D2 = 0;
-
-volatile SCREENS currentScreen;
-volatile STATES currentState;
-GyverOLED<SSD1306_128x64, OLED_NO_BUFFER> oled;
 
 void setup()
 {
@@ -17,16 +12,16 @@ void setup()
   currentState = WAIT_FOR_CONNECTION;
   currentScreen = CPU_GPU;
 
-  initializeDisplay(&oled);
+  initializeDisplay();
 }
 
 void loop()
 {
   if (currentState == WAIT_FOR_CONNECTION)
-    return waitForConnection(&currentState);
+    return waitForConnection();
 
   else if (currentState == SHOW_SCREEN)
-    return requestAnimationFrame(&oled);
+    return requestAnimationFrame();
 
   else if (currentState == CHANGE_SCREEN)
     return requestScreenChange();
