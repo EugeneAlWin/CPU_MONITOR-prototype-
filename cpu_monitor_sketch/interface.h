@@ -1,0 +1,19 @@
+#pragma once
+
+constexpr auto HELLO_MESSAGE = "CPU_MONITOR";
+
+enum STATES
+{
+    WAIT_FOR_CONNECTION,
+    SHOW_SCREEN,
+    CHANGE_SCREEN,
+    _STATES_LEN // THIS IS NOT A STATE
+};
+
+enum SCREENS
+{
+    CPU_GPU,
+    RAM_VRAM,
+    INTERNET_IN_OUT,
+    _SCREENS_LEN // THIS IS NOT A SCREEN
+};

@@ -1,0 +1,7 @@
+{
+    "configuration": "cpu=atmega328old",
+    "board": "arduino:avr:nano",
+    "programmer": "arduinoasisp",
+    "sketch": "cpu_monitor_sketch.ino",
+    "port": "COM8"
+}
