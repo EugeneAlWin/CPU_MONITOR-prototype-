@@ -4,7 +4,6 @@
 
 namespace global
 {
-    volatile SCREENS currentScreen;
     volatile STATES currentState;
     GyverOLED<SSD1306_128x64, OLED_NO_BUFFER> oled;
     String BUFFER_DATA;
@@ -15,8 +14,9 @@ void initializeDisplay()
     using namespace global;
     oled.init();
     oled.clear();
-    oled.setScale(3);
+    oled.setScale(2);
     oled.home();
+    oled.println("Waiting\r\nfor\r\nconnection");
 }
 
 void waitForConnection()
@@ -30,6 +30,7 @@ void waitForConnection()
         if (Serial.readString() == HELLO_MESSAGE)
         {
             Serial.write(ACK_MESSAGE);
+            oled.clear();
             currentState = SHOW_SCREEN;
             return;
         }
@@ -41,32 +42,36 @@ void requestAnimationFrame()
     using namespace global;
     if (Serial.available() == 0)
         return;
-
-    oled.clear();
     oled.home();
-    oled.print(Serial.readString());
+    oled.println(Serial.readString());
 }
 
 void switchScreen()
 {
     using namespace global;
-    currentScreen = static_cast<SCREENS>((static_cast<int>(currentScreen) + 1) % static_cast<int>(_SCREENS_LEN));
     currentState = CHANGE_SCREEN;
 }
 
 void requestNewScreenData()
 {
     using namespace global;
-    Serial.write(currentScreen);
+    oled.clear();
+    oled.home();
+    oled.println("Please\r\nStand by...\n");
+    oled.println("Fetching...");
+    //
+    Serial.flush();
+    delay(500);
+    Serial.write(SWITCH_SCREEN_MESSAGE);
     while (true)
     {
         if (Serial.available() == 0)
             continue;
         if (Serial.readString() == ACK_MESSAGE)
         {
-            Serial.write(ACK_MESSAGE);
             currentState = SHOW_SCREEN;
-            return;
+            break;
         }
     }
+    oled.clear();
 }

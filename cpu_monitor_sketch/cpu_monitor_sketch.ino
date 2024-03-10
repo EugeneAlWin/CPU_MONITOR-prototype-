@@ -12,7 +12,6 @@ void setup()
   pinMode(BUTTON_PIN_DIGITAL, INPUT_PULLUP);
   attachInterrupt(INTERRUPT_PIN_D2, switchScreen, RISING);
   currentState = WAIT_FOR_CONNECTION;
-  currentScreen = CPU_GPU;
 
   initializeDisplay();
 }
